@@ -6,6 +6,7 @@ interface RegisterUseCaseRequest {
     name: string
     email: string
     cep: string
+    city: string
     address: string
     whatsapp: string
     password: string
@@ -19,7 +20,7 @@ export class RegisterUseCase {
 
     constructor(private ongsRepository: OngsRepository){}
 
-    async execute({name, email, cep, address, whatsapp, password}: RegisterUseCaseRequest){
+    async execute({name, email, cep, city, address, whatsapp, password}: RegisterUseCaseRequest){
 
         const password_hash = await hash(password, 6)
 
@@ -27,6 +28,7 @@ export class RegisterUseCase {
             name,
             email,
             cep,
+            city,
             address,
             whatsapp,
             password: password_hash
