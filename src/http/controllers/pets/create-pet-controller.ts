@@ -1,7 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
-import { CreatePetUseCase } from "@/use-cases/create-pet"; 
-import { PrismaPetsRepository } from "@/repositories/prisma-pets-repository";
+import { makeCreatePet } from "@/use-cases/factories/make-create-pet";
 
 export async function createPet(request: FastifyRequest, reply: FastifyReply) {
 
@@ -9,6 +8,7 @@ export async function createPet(request: FastifyRequest, reply: FastifyReply) {
     const createPetBodySchema = z.object({
         name: z.string(),
         about: z.string(),
+        city: z.string(),
         age: z.coerce.number(),
         size: z.enum(["small", "medium", "large"]),
         energyLevel: z.enum(["low", "medium", "high"]),
@@ -18,18 +18,16 @@ export async function createPet(request: FastifyRequest, reply: FastifyReply) {
         adoptionRequirements: z.string()
     })
 
-    const { name, about, adoptionRequirements, age, energyLevel, environmentIdeal, independencyLevel, size, imageURL } = createPetBodySchema.parse(request.body)
+    const { name, about, city, adoptionRequirements, age, energyLevel, environmentIdeal, independencyLevel, size, imageURL } = createPetBodySchema.parse(request.body)
 
     try{
 
-        const petsRepository = new PrismaPetsRepository()
-        const createPetUseCase  = new CreatePetUseCase(petsRepository)
-
-
+        const createPetUseCase  = makeCreatePet()
 
         await createPetUseCase.execute({
             name,
             about,
+            city,
             adoptionRequirements,
             age,
             energyLevel,

@@ -6,6 +6,7 @@ import {} from '@fastify/jwt'
 interface CreatePetUseCaseRequest {
     name: string
     about: string
+    city: string
     age: number
     size: Size
     energyLevel: EnergyLevel
@@ -19,11 +20,12 @@ interface CreatePetUseCaseRequest {
 export class CreatePetUseCase {
     constructor(public petsRepository: PetsRepository) { }
 
-    async execute({ name, about, age, size, energyLevel, independencyLevel, environmentIdeal, imageURL, adoptionRequirements, ongId }: CreatePetUseCaseRequest) {
+    async execute({ name, about, city, age, size, energyLevel, independencyLevel, environmentIdeal, imageURL, adoptionRequirements, ongId }: CreatePetUseCaseRequest) {
 
         const pet = await this.petsRepository.create({
             name,
             about,
+            city,
             age,
             size,
             energyLevel,

@@ -18,7 +18,6 @@ model Ong {
   name     String
   email    String @unique
   cep      String
-  city     String
   address  String
   whatsapp String
   password String
@@ -31,6 +30,7 @@ model Pet {
   id                   String            @id @default(uuid())
   name                 String
   about                String
+  city                 String
   age                  Int
   size                 Size
   energyLevel          EnergyLevel
